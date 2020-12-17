@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sample.service.impl.SampleMapper">
+
+	<select id="selectSampleList" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT ID, NAME, DESCRIPTION, USE_YN, REG_USER
+		FROM SAMPLE
+		WHERE 1=1
+		<if test="keyword != null and keyword != ''">
+			<choose>
+				<when test="searchType == 'ID'">
+					AND ID LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="searchType == 'NAME'">
+					AND NAME LIKE '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</if>
+		ORDER BY ID ASC
+	</select>
+	
+	<insert id="insertSampleList" parameterType="java.util.Map">
+	    INSERT INTO SAMPLE
+	    	( ID
+	    	, NAME
+	    	, DESCRIPTION
+	    	, USE_YN
+	    	, REG_USER )
+    	VALUES
+	    	( #{ID}
+	    	, #{NAME}
+	    	, #{DESCRIPTION}
+	    	, #{USE_YN}
+	    	, #{REG_USER} )
+	</insert>
+
+	<update id="updateSampleList" parameterType="java.util.Map">
+		UPDATE SAMPLE
+		SET 
+			ID = #{ID}
+			, NAME = #{NAME}
+			, DESCRIPTION = #{DESCRIPTION}
+			, USE_YN = #{USE_YN}
+		WHERE ID = #{ID}	    
+	</update>
+	
+	<delete id="deleteSampleList" parameterType="java.util.Map">
+		DELETE FROM SAMPLE
+		WHERE ID = #{ID}	    
+	</delete>
+</mapper>
